@@ -101,7 +101,10 @@
     ];
 
     function initialize() {
-        canvas = new fabric.Canvas('c', {selection: false});
+        canvas = new fabric.Canvas('c', {
+            selection: false
+        });
+        canvas.setBackgroundColor('white');
         fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
         canvas.on({
             'object:moving': onObjectMoving,

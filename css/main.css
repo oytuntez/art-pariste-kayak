@@ -1,9 +1,14 @@
+body {
+    background: #000;
+}
+
 .container {
     position: relative;
+    width: 1000px;
+    margin: auto;
 }
 
 #c {
     position: absolute;
-    border: 1px solid gray;
     margin: auto;
 }
