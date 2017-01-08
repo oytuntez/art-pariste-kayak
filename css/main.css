@@ -1,0 +1,9 @@
+.container {
+    position: relative;
+}
+
+#c {
+    position: absolute;
+    border: 1px solid gray;
+    margin: auto;
+}
