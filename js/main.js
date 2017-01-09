@@ -139,7 +139,7 @@
 
     function placeSignature() {
         var textOptions = {
-            left: 900,
+            left: 930,
             top: 680,
             fontFamily: 'Arial',
             fontSize: 10,
@@ -339,12 +339,18 @@
             setTimeout(function() {
                 object.animate('left', originalLeft, {
                     duration: 200,
-                    onChange: canvas.renderAll.bind(canvas)
+                    onChange: canvas.renderAll.bind(canvas),
+                    onComplete: function() {
+                        object.setCoords();
+                    }
                 });
 
                 object.animate('top', originalTop, {
                     duration: 200,
-                    onChange: canvas.renderAll.bind(canvas)
+                    onChange: canvas.renderAll.bind(canvas),
+                    onComplete: function() {
+                        object.setCoords();
+                    }
                 });
             }, 500);
         }
