@@ -275,7 +275,7 @@
 
                 vibrateObject(wordObjects[i]);
             }
-        }, 10000);
+        }, 1000);
     }
 
     function vibrateObject(object) {
@@ -336,8 +336,17 @@
             clearInterval(leftInterval);
             clearInterval(topInterval);
 
-            object.setLeft(originalLeft);
-            object.setTop(originalTop);
+            setTimeout(function() {
+                object.animate('left', originalLeft, {
+                    duration: 200,
+                    onChange: canvas.renderAll.bind(canvas)
+                });
+
+                object.animate('top', originalTop, {
+                    duration: 200,
+                    onChange: canvas.renderAll.bind(canvas)
+                });
+            }, 500);
         }
 
         setTimeout(cancel, 3000);
