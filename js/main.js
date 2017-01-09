@@ -100,6 +100,9 @@
         }
     ];
 
+    var isDragged = false;
+    var fontFamily = '"Lucida Console", Monaco, monospace';
+
     function initialize() {
         canvas = new fabric.Canvas('c', {
             selection: false
@@ -120,7 +123,7 @@
         var textOptions = {
             left: 500,
             top: 400,
-            fontFamily: '"Lucida Console", Monaco, monospace',
+            fontFamily: fontFamily,
             fontSize: 15,
             lineHeight: 1.6,
             selectable: false,
@@ -158,7 +161,7 @@
         var textOptions = {
                 left: 200,
                 top: 200,
-                fontFamily: '"Lucida Console", Monaco, monospace',
+                fontFamily: fontFamily,
                 fontSize: 15,
                 lineHeight: 1.6,
                 hasControls: false
@@ -181,7 +184,8 @@
             placeholderObject,
             lineCoords = {},
             originIter = 0,
-            lineCoordText;
+            lineCoordText,
+            wordObjects = [];
 
         for(var wordI in missingWords) {
             if(!missingWords.hasOwnProperty(wordI)) {
@@ -200,6 +204,8 @@
             text.originalTop = word.label[1];
             text.isSnapped = false;
             canvas.add(text);
+
+            wordObjects.push(text);
 
             originIter = 0;
 
@@ -233,7 +239,6 @@
                 };
 
                 if(word.label[0] > origin[0]) {
-                    console.log(word, (word.label[0]-origin[0]));
                     lineCoords.curve3 = lineCoords.curve3/(((origin[0])/(word.label[0]-origin[0]))/2);
                     lineCoords.startLeft -= 70;
                 }
@@ -257,12 +262,93 @@
                 canvas.add(placeholderObject);
             }
         }
+
+        setTimeout(function() {
+            if(isDragged) {
+                return;
+            }
+
+            for(var i in wordObjects) {
+                if(!wordObjects.hasOwnProperty(i)) {
+                    continue;
+                }
+
+                vibrateObject(wordObjects[i]);
+            }
+        }, 10000);
+    }
+
+    function vibrateObject(object) {
+        var wasLeft = false,
+            wasUp = false,
+            originalLeft = object.left,
+            originalTop = object.top,
+            leftInterval,
+            topInterval;
+
+        leftInterval = setInterval(function() {
+            if(isDragged) {
+                cancel();
+                return;
+            }
+
+            var left = originalLeft;
+
+            if(wasLeft) {
+                left += 10;
+                wasLeft = false;
+            } else {
+                left -= 10;
+                wasLeft = true;
+            }
+
+            object.animate('left', left, {
+                duration: 200,
+                onChange: canvas.renderAll.bind(canvas)
+            });
+        }, 100);
+
+        setTimeout(function() {
+            topInterval = setInterval(function () {
+                if(isDragged) {
+                    cancel();
+                    return;
+                }
+
+                var top = originalTop;
+
+                if (wasUp) {
+                    top += 10;
+                    wasUp = false;
+                } else {
+                    top -= 10;
+                    wasUp = true;
+                }
+
+                object.animate('top', top, {
+                    duration: 200,
+                    onChange: canvas.renderAll.bind(canvas)
+                });
+            }, 500);
+        }, 100);
+
+        function cancel() {
+            clearInterval(leftInterval);
+            clearInterval(topInterval);
+
+            object.setLeft(originalLeft);
+            object.setTop(originalTop);
+        }
+
+        setTimeout(cancel, 3000);
     }
 
     function onObjectMoving(e) {
         if(!e.hasOwnProperty('target')) {
             return;
         }
+
+        isDragged = true;
 
         hideLines(e.target);
 
