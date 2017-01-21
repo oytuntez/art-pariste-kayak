@@ -85,6 +85,7 @@
 
     var isDragged = false;
     var fontFamily = '"Lucida Console", Monaco, monospace';
+    var wordObjects = [];
 
     function initialize() {
         canvas = new fabric.Canvas('c', {
@@ -167,8 +168,7 @@
             placeholderObject,
             lineCoords = {},
             originIter = 0,
-            lineCoordText,
-            wordObjects = [];
+            lineCoordText;
 
         for(var wordI in missingWords) {
             if(!missingWords.hasOwnProperty(wordI)) {
@@ -441,7 +441,21 @@
                     }
 
                     if(object.sublines.length < 1) {
+                        for(var k in wordObjects) {
+                            if(!wordObjects.hasOwnProperty(k)) {
+                                continue;
+                            }
+
+                            if(wordObjects[k] === object) {
+                                wordObjects.splice(k, 1);
+                            }
+                        }
+
                         object.remove();
+
+                        if(wordObjects.length < 1) {
+                            setTimeout(window.print, 3000);
+                        }
 
                         return;
                     }
