@@ -8,3 +8,18 @@
     position: absolute;
     margin: auto;
 }
+
+.showOnPrint {
+    display: none;
+    margin-top: 200px;
+    font-size: 3em;
+    text-align: center;
+}
+
+.showOnPrint img {
+    width: 200px;
+}
+
+@media print {
+    .showOnPrint, .showOnPrint > * {display:block;}
+}

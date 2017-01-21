@@ -1,22 +1,5 @@
 (function() {
     var canvas;
-    var poemFull = "Paris’teki çocuklar 2 dakika geç kalmıştı\n"+
-        "                sen 8 saat\n"+
-        "içine zarf atmıştık, geri döndü\n"+
-        "kimi bulanmış romantizme, dönmüş\n"+
-        "karşı çıkmadı birimiz, öyle güzel, çılgın\n"+
-        "                            çılgın\n"+
-        "                            çılgın\n"+
-        "                        çok güzel\n"+
-        "demokratik flörtler ya bunlar,\n"+
-        "flört de mi değil, flört mü,\n"+
-        "demo-mö-mö-mö-mö layığıyla sarmalamışlar\n"+
-        "            yok, gırtlağıyla\n"+
-        "o bohem oğlanlarınsa aklına camdan evler soktum\n"+
-        "sen her akşam o eve 8 saat geç geliyorsun\n"+
-        "\n"+
-        "Paris’te 2 dakikada bir ıslık, düdük, öttürü...\n";
-
     var poem = "     ’teki çocuklar 2 dakika geç kalmıştı\n"+
         "                sen       \n"+
         "içine zarf atmıştık, geri döndü\n"+
@@ -275,7 +258,7 @@
 
                 vibrateObject(wordObjects[i]);
             }
-        }, 1000);
+        }, 10000);
     }
 
     function vibrateObject(object) {
